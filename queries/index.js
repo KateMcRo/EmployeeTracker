@@ -1,0 +1,8 @@
+const GET_ALL_DEPARTMENTS = "SELECT * FROM departments"
+const GET_ALL_ROLES = "SELECT * FROM roles"
+const GET_ALL_EMPLOYEES = "SELECT * FROM employees"
+
+const ADD_DEPARTMENT = "INSERT INTO departments SET ?"
+
+module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT}
+
