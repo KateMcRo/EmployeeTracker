@@ -16,13 +16,17 @@ const prompt = async() => {
         case "View all departments": {
             const result = await handleViewDepartments()
             console.table(result)
-            prompt()
+            return prompt()
         }
         case "View all roles": {
-            return handleViewRoles()
+            const result = await handleViewRoles()
+            console.table(result)
+            return prompt()
         }
         case "View all employees": {
-            return handleViewEmployees()
+            const result = await handleViewEmployees()
+            console.table(result)
+            return prompt()
         }
         case "Add a department": {
             try {
@@ -32,7 +36,7 @@ const prompt = async() => {
                 console.error(`There was an error adding ${department} to table, please try again.`)
             }
             finally {
-                prompt()
+                return prompt()
             }
         }
         case "Add a role": {
