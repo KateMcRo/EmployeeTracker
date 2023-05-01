@@ -41,7 +41,7 @@ const handleAddRole = async () => {
     console.log("viewing roles")
     const departments = await db.promise().query(GET_ALL_DEPARTMENTS)
     const departmentObj = departments[0].map(department => ({ name: department.name, value: department.id }))
-    const { role, title, salary, department_id } = await inquirer.prompt([
+    const { title, salary, department_id } = await inquirer.prompt([
         {
             type: "input",
             name: "title",
