@@ -23,6 +23,8 @@ LEFT JOIN employees AS manager ON employees.manager_id = manager.id;
 `
 
 const ADD_DEPARTMENT = "INSERT INTO departments SET ?"
+const ADD_ROLE = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)"
+const ADD_EMPLOYEE = "INSERT INTO employees SET ?"
 
-module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT}
+module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE}
 

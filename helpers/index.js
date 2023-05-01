@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const options = require("../constants");
+const constants = require("../constants");
 const {handleViewDepartments, handleViewRoles, handleViewEmployees, handleAddDepartment, handleAddRole, handleAddEmployee} = require("../handlers")
 
 const prompt = async() => {
@@ -8,7 +8,7 @@ const prompt = async() => {
             type: "list",
             name: "input",
             message: "What would you like to do?",
-            choices: options
+            choices: constants.options
         }
     ]); 
     console.log("You chose: ", input)
