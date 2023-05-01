@@ -1,7 +1,7 @@
 const inquirer = require("inquirer")
 const db = require("../config/connection")
 const constants = require("../constants");
-module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE} = require("../queries")
+const {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE, GET_ALL_MANAGERS} = require("../queries")
 
 // View functions
 const handleViewDepartments = async () => {
@@ -38,9 +38,8 @@ const handleAddDepartment = async () => {
 }
 
 const handleAddRole = async () => {
-    console.log("viewing roles")
     const departments = await db.promise().query(GET_ALL_DEPARTMENTS)
-    const departmentObj = departments[0].map(department => ({ name: department.name, value: department.id }))
+    const departmentArray = departments[0].map(department => ({ name: department.name, value: department.id }))
     const { title, salary, department_id } = await inquirer.prompt([
         {
             type: "input",
@@ -56,17 +55,49 @@ const handleAddRole = async () => {
             type: "list",
             name: "department_id",
             message: "Which department does this role belong to?",
-            choices: departmentObj
+            choices: departmentArray
         }
     ]);
-
     await db.promise().query(ADD_ROLE, [title, salary, department_id]);
     console.log("Role added successfully!")
 }
 
-
-const handleAddEmployee = () => {
-    console.log("viewing employees")
-}
+const handleAddEmployee = async () => {
+    const roles = await db.promise().query(GET_ALL_ROLES);
+    const roleArray = roles[0].map(role => ({ name: role.job_title, value: role.role_id }));
+    const managers = await db.promise().query(GET_ALL_MANAGERS);
+    const managerArray = managers[0].map(manager => ({ 
+        name: `${manager.first_name} ${manager.last_name}`,
+        value: manager.id 
+        }));
+  
+    const { first_name, last_name, role_id, manager_id } = await inquirer.prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "What is the employee's first name?",
+      },
+      {
+        type: "input",
+        name: "last_name",
+        message: "What is the employee's last name?",
+      },
+      {
+        type: "list",
+        name: "role_id",
+        message: "What is this employee's title?",
+        choices: roleArray,
+      },
+      {
+        type: "list",
+        name: "manager_id",
+        message: "Who does this employee report to?",
+        choices: managerArray,
+      },
+    ]);
+  
+    await db.promise().query(ADD_EMPLOYEE, [first_name, last_name, role_id, manager_id]);
+    console.log("Employee added successfully!");
+  };
 
 module.exports = {handleViewDepartments, handleViewRoles, handleViewEmployees, handleAddDepartment, handleAddRole, handleAddEmployee}

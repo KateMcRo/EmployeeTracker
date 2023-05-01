@@ -22,9 +22,19 @@ JOIN departments ON roles.department_id = departments.id
 LEFT JOIN employees AS manager ON employees.manager_id = manager.id;
 `
 
+const GET_ALL_MANAGERS =
+`SELECT
+employees.id,
+employees.first_name,
+employees.last_name
+FROM employees
+WHERE manager_id IS NULL
+`
+
 const ADD_DEPARTMENT = "INSERT INTO departments SET ?"
 const ADD_ROLE = "INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)"
-const ADD_EMPLOYEE = "INSERT INTO employees SET ?"
+const ADD_EMPLOYEE = "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
 
-module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE}
+
+module.exports = {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE, GET_ALL_MANAGERS}
 

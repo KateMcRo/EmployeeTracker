@@ -12,23 +12,37 @@ const options = [
     "Update an employee",
     ]
 
-const departmentObj = [];
+const departmentArray = [];
 
 const departments = async () => {
     const data = await db.promise().query(GET_ALL_DEPARTMENTS);
     const [result] = data;
-    const departmentObj = result.map(department => ({
+    const departmentArray = result.map(department => ({
       // allows me to use the names for the inquirer prompt
       name: department.name,
       // grants access to the dep. id to add to the db
       value: department.id
     }));
-    return departmentObj;
+    return departmentArray;
   };
 
-departments()
+let roleArray;
 
-    module.exports = {
-        options,
-        departmentObj
-    }
+const roles = async () => {
+    const data = await db.promise().query(GET_ALL_ROLES);
+    const [result] = data;
+    const roleArray = result.map(roles => ({
+      name: roles.job_title,
+      value: roles.role_id
+    }));
+    return roleArray;
+};
+
+departments()
+roles()
+
+module.exports = {
+    options,
+    departmentArray,
+    roleArray
+}
