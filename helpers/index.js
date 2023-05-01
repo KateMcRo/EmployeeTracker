@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const constants = require("../constants");
+const options = require("../constants");
 const {handleViewDepartments, handleViewRoles, handleViewEmployees, handleAddDepartment, handleAddRole, handleAddEmployee} = require("../handlers")
 
 const prompt = async() => {
@@ -8,10 +8,9 @@ const prompt = async() => {
             type: "list",
             name: "input",
             message: "What would you like to do?",
-            choices: constants.options
+            choices: options
         }
     ]); 
-    console.log("You chose: ", input)
     switch(input) {
         case "View all departments": {
             const result = await handleViewDepartments()
@@ -30,23 +29,41 @@ const prompt = async() => {
         }
         case "Add a department": {
             try {
-                const department = await handleAddDepartment()
-                console.log(`successfully added ${department} to table`)
+                await handleAddDepartment()
+                console.log(`Successfully added a Department.`)
             } catch (error){
-                console.error(`There was an error adding ${department} to table, please try again.`)
+                console.error(`There was an error adding a Department, please try again.`)
             }
             finally {
                 return prompt()
             }
         }
         case "Add a role": {
-            return handleAddRole()
+            try {
+                await handleAddRole()
+                console.log(`Successfully added a new Role.`)
+            } catch (error){
+                console.error(`There was an error adding a new Role, please try again.`)
+            }
+            finally {
+                return prompt()
+            }
         }
         case "Add an employee": {
-            return handleAddEmployee()
+            try {
+                await handleAddEmployee()
+                console.log(`Successfully added a new Employee.`)
+            } catch (error){
+                console.error(`There was an error adding a new Employee, please try again.`)
+            }
+            finally {
+                return prompt()
+            }
+        }
+        case "Exit": {
+            process.exit()
         }
     }
-
 }
 
 module.exports = prompt

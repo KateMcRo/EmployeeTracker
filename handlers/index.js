@@ -1,6 +1,5 @@
 const inquirer = require("inquirer")
 const db = require("../config/connection")
-const constants = require("../constants");
 const {GET_ALL_DEPARTMENTS, GET_ALL_ROLES, GET_ALL_EMPLOYEES, ADD_DEPARTMENT, ADD_ROLE, ADD_EMPLOYEE, GET_ALL_MANAGERS} = require("../queries")
 
 // View functions
@@ -58,8 +57,8 @@ const handleAddRole = async () => {
             choices: departmentArray
         }
     ]);
-    await db.promise().query(ADD_ROLE, [title, salary, department_id]);
-    console.log("Role added successfully!")
+    const [result] = await db.promise().query(ADD_ROLE, [title, salary, department_id]);
+    return result
 }
 
 const handleAddEmployee = async () => {
@@ -96,8 +95,8 @@ const handleAddEmployee = async () => {
       },
     ]);
   
-    await db.promise().query(ADD_EMPLOYEE, [first_name, last_name, role_id, manager_id]);
-    console.log("Employee added successfully!");
+    const [result] = await db.promise().query(ADD_EMPLOYEE, [first_name, last_name, role_id, manager_id]);
+    return result
   };
 
 module.exports = {handleViewDepartments, handleViewRoles, handleViewEmployees, handleAddDepartment, handleAddRole, handleAddEmployee}
